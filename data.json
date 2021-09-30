@@ -7,7 +7,8 @@
         "GO_TO_MAIN_TEXT" : "td:nth-child(3) > a",
         "TITLE" : "#container > div > div > div > div.boardDetailViewBox > div > div > div.detail_titleBox > h2",
         "PAGE_CNT" : 5,
-        "PAGE_TEXT" : "a[title='{0}페이지']"
+        "PAGE_TEXT" : "a[title='{0}페이지']",
+        "UNRELATED_ANNOUNCEMENT" : ""
     },
     "나주 공고" : {
         "NEXT" : "#content > div > div > div.board_list_box > div.board_list > div.board_pager_box > div.pagenum_box > a",
@@ -17,7 +18,8 @@
         "GO_TO_MAIN_TEXT" : "td.align_left > a",
         "TITLE" : "#content > div > div > div > h3",
         "PAGE_CNT" : 10,
-        "PAGE_TEXT" : "a[title='{0} 페이지']"
+        "PAGE_TEXT" : "a[title='{0} 페이지']",
+        "UNRELATED_ANNOUNCEMENT" : ""
     },
     "전남 공고" : {
         "NEXT" : "#frm > div.bbs_page.mt30 > span:nth-child(3) > a",
@@ -27,6 +29,18 @@
         "GO_TO_MAIN_TEXT" : "td.title.left.petition > a",
         "TITLE" : "#container > article > section > div.contents > section > div.bbs_view > h3",
         "PAGE_CNT" : 5,
-        "PAGE_TEXT" : "#frm > div.bbs_page.mt30 > span.page > a:nth-child({0})"
+        "PAGE_TEXT" : "#frm > div.bbs_page.mt30 > span.page > a:nth-child({0})",
+        "UNRELATED_ANNOUNCEMENT" : ""
+    },
+    "목포 공고" : {
+        "NEXT" : "#content > div > div > div > a.next",
+        "NEWS_LIST" : "#content > div > table > tbody > tr",
+        "NUM" : "td:nth-child(1)",
+        "WRITED_DATE" : "td.date.center",
+        "GO_TO_MAIN_TEXT" : "td.align_l.title_wrap > a",
+        "TITLE" : "#board_basic_view > div.news_tit > h3",
+        "PAGE_CNT" : 10,
+        "PAGE_TEXT" : "#content > div > div > div > a:nth-child({0})",
+        "UNRELATED_ANNOUNCEMENT" : ":not(.tr_notice)"
     }
 }
