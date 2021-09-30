@@ -10,7 +10,8 @@ with open('data.json', 'r', encoding='utf-8') as f:
 
 driver = webdriver.Chrome(executable_path='chromedriver.exe')
 
-driver.set_window_position(-10000,0)
+# Chrome 창의 사이즈를 작게 하여 프로그램이 중단되지 않도록 함
+driver.set_window_position(-10000,0) 
 
 conn = pymysql.connect(host='localhost', user='root', password='1234', db='news', charset='utf8') 
 cursor = conn.cursor() 
@@ -58,6 +59,7 @@ def crawler(link):
             for i in range(len(driver.find_elements_by_css_selector(page_info.NEWS_LIST))):
                 title, num, writed_date, collected_date, hyperlink = get_values_to_page(page_info, i)
                 
+                # 2021년의 데이터만 수집
                 if writed_date[:4] != '2021':
                     return
 
@@ -66,14 +68,15 @@ def crawler(link):
                 except pymysql.err.IntegrityError:
                     pass
                 conn.commit()
-                print(title) #debug
+                print(title) #debug 용
             cnt += 1
             driver.implicitly_wait(5)
             try:
                 driver.find_element_by_css_selector(page_info.PAGE_TEXT.format(cnt)).click()
             except selenium.common.exceptions.NoSuchElementException:
                 return
-            
+        
+        # 더 이상 접근 가능한 페이지가 없을 경우 '다음'을 클릭하여 새로운 페이지 정보창으로 이동
         driver.find_element_by_css_selector(page_info.NEXT).click()
         cnt += 1
 
@@ -86,6 +89,7 @@ def get_values_to_page(page_info, i):
     writed_date = news_list[i].find_element_by_css_selector(page_info.WRITED_DATE).text
     collected_date = datetime.date.today()
     
+    # URL과 제목을 원본 값으로 얻기 위해 직접 클릭하여 수집 후 이전 페이지로 회귀
     driver.implicitly_wait(5)
     news_list[i].find_element_by_css_selector(page_info.GO_TO_MAIN_TEXT).click()
     title = driver.find_element_by_css_selector(page_info.TITLE).text
