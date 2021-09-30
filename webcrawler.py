@@ -100,4 +100,3 @@ def get_values_to_page(page_info, i):
 links = [ "http://jcia.or.kr/cf/information/news.do", "https://www.naju.go.kr/www/administration/notice/financial", "https://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000"]
 for link in links:
     crawler(link)
-    # "http://jcia.or.kr/cf/information/news.do", "https://www.naju.go.kr/www/administration/notice/financial", 
