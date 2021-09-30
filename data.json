@@ -1,0 +1,32 @@
+{
+    "JCIA 공고" : {
+        "NEXT" : "a[title='다음']",
+        "NEWS_LIST" : "#Form > div > div > table > tbody > tr",
+        "NUM" : "td.number",
+        "WRITED_DATE" : "td.date",
+        "GO_TO_MAIN_TEXT" : "td:nth-child(3) > a",
+        "TITLE" : "#container > div > div > div > div.boardDetailViewBox > div > div > div.detail_titleBox > h2",
+        "PAGE_CNT" : 5,
+        "PAGE_TEXT" : "a[title='{0}페이지']"
+    },
+    "나주 공고" : {
+        "NEXT" : "#content > div > div > div.board_list_box > div.board_list > div.board_pager_box > div.pagenum_box > a",
+        "NEWS_LIST" : "#content > div > div > div.board_list_box > div.board_list > table > tbody > tr",
+        "NUM" : "td:nth-child(1)",
+        "WRITED_DATE" : "td:nth-child(4)",
+        "GO_TO_MAIN_TEXT" : "td.align_left > a",
+        "TITLE" : "#content > div > div > div > h3",
+        "PAGE_CNT" : 10,
+        "PAGE_TEXT" : "a[title='{0} 페이지']"
+    },
+    "전남 공고" : {
+        "NEXT" : "#frm > div.bbs_page.mt30 > span:nth-child(3) > a",
+        "NEWS_LIST" : "#frm > div.bbs_basic > table > tbody > tr",
+        "NUM" : "td.number",
+        "WRITED_DATE" : "td.date",
+        "GO_TO_MAIN_TEXT" : "td.title.left.petition > a",
+        "TITLE" : "#container > article > section > div.contents > section > div.bbs_view > h3",
+        "PAGE_CNT" : 5,
+        "PAGE_TEXT" : "#frm > div.bbs_page.mt30 > span.page > a:nth-child({0})"
+    }
+}
