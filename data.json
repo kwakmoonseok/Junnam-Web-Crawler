@@ -42,5 +42,38 @@
         "PAGE_CNT" : 10,
         "PAGE_TEXT" : "#content > div > div > div > a:nth-child({0})",
         "UNRELATED_ANNOUNCEMENT" : ":not(.tr_notice)"
+    },
+    "여수 공고" : {
+        "NEXT" : "#content > div > div > div > div.board_list > div.board_pager_box > div.pagenum_box > a",
+        "NEWS_LIST" : "#content > div > div > div > div.board_list > table > tbody > tr",
+        "NUM" : "td:nth-child(1)",
+        "WRITED_DATE" : "td:nth-child(4)",
+        "GO_TO_MAIN_TEXT" : "td.align_left > a",
+        "TITLE" : "#content > div > div > div.view_titlebox > h3",
+        "PAGE_CNT" : 10,
+        "PAGE_TEXT" : "#content > div > div > div > div.board_list > div.board_pager_box > div.pagenum_box > ul > li:nth-child({0})",
+        "UNRELATED_ANNOUNCEMENT" : ":not(.notice)"
+    },
+    "순천 공고" : {
+        "NEXT" : "#bbsForm > div.paginate_wrap > p > span.next_page > a",
+        "NEWS_LIST" : "#bbsForm > table > tbody > tr",
+        "NUM" : "td.no.hidden-phone.start",
+        "WRITED_DATE" : "td.created.hidden-phone",
+        "GO_TO_MAIN_TEXT" : "td.title > a",
+        "TITLE" : "#bbsForm > div > table > thead > tr > th",
+        "PAGE_CNT" : 10,
+        "PAGE_TEXT" : "a[title='{0}페이지']",
+        "UNRELATED_ANNOUNCEMENT" : ""
+    },
+    "광양 공고" : {
+        "NEXT" : "#pdfDiv > div > p.bbs_page > span:nth-child(8) > a",
+        "NEWS_LIST" : "#pdfDiv > div > table > tbody > tr",
+        "NUM" : "td:nth-child(1)",
+        "WRITED_DATE" : "td:nth-child(4)",
+        "GO_TO_MAIN_TEXT" : "td.txt_left.title > a",
+        "TITLE" : "#pdfDiv > div > div > h4",
+        "PAGE_CNT" : 5,
+        "PAGE_TEXT" : "a[value={0}]",
+        "UNRELATED_ANNOUNCEMENT" : ""
     }
 }

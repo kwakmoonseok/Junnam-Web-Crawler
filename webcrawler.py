@@ -49,6 +49,12 @@ def crawler(link):
         agency = "전남 공고"
     elif 'mokpo' in link:
         agency = "목포 공고"
+    elif 'yeosu' in link:
+        agency = "여수 공고"
+    elif 'suncheon' in link:
+        agency = "순천 공고"
+    elif 'gwangyang' in link:
+        agency = "광양 공고"
     
     driver.get(link)
     
@@ -94,11 +100,10 @@ def get_values_to_page(page_info, i):
         raise TypeError('parameter type is different origin type')
 
     news_list = driver.find_elements_by_css_selector(page_info.NEWS_LIST + page_info.UNRELATED_ANNOUNCEMENT)
-    num = int(re.sub("\,", "", news_list[i].find_element_by_css_selector(page_info.NUM).text))
+    num = int(re.sub("\,|\"", "", news_list[i].find_element_by_css_selector(page_info.NUM).text))
     writed_date = news_list[i].find_element_by_css_selector(page_info.WRITED_DATE).text
     collected_date = datetime.date.today()
 
-    
     driver.implicitly_wait(5)
     news_list[i].find_element_by_css_selector(page_info.GO_TO_MAIN_TEXT).click()
     title = driver.find_element_by_css_selector(page_info.TITLE).text
@@ -110,6 +115,7 @@ def get_values_to_page(page_info, i):
 
     return title, num, writed_date, collected_date, hyperlink
             
-links = [ "https://www.mokpo.go.kr/www/open_administration/city_news/notice", "http://jcia.or.kr/cf/information/news.do", "https://www.naju.go.kr/www/administration/notice/financial", "https://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000"]
+links = [ "https://www.gwangyang.go.kr/board/list.gwangyang?boardId=BBS_0000004&menuCd=DOM_000000103001000000&contentsSid=227&cpath=", "https://www.suncheon.go.kr/kr/news/0001/0004/", "https://www.yeosu.go.kr/www/govt/news/notice", "https://www.mokpo.go.kr/www/open_administration/city_news/notice", "http://jcia.or.kr/cf/information/news.do", "https://www.naju.go.kr/www/administration/notice/financial", "https://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000"]
 for link in links:
     crawler(link)
+driver.close()
