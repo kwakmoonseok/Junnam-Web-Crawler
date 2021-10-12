@@ -3,22 +3,34 @@ import json
 import re
 import logging
 import pymysql
+import logging
 
 import selenium
 from selenium import webdriver
-from selenium.webdriver.common import keys
-from selenium.webdriver.common.keys import Keys
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
+
+file_handler = logging.FileHandler('my.log')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
 
 # data 불러오기
 with open('data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-chrome_driver = webdriver.Chrome(executable_path='chromedriver.exe')
+chrome_driver = webdriver.Chrome(executable_path='./chromedriver')
 
 # SQL Connection
 conn = pymysql.connect(host='localhost', user='root', password='1234', db='news', charset='utf8') 
 cursor = conn.cursor() 
-sql = "INSERT INTO junnam_news (title, num, agency, writed_date, collected_date, hyperlink) VALUES (%s, %s, %s, %s, %s, %s)" 
+sql = "INSERT INTO junnam_news (title, num, agency, writed_date, collected_date, hyperlink) VALUES (%s, %s, %s, %s, %s, %s)"
 
 site_category = { 'jcia' : "JCIA 공고", 'naju' : "나주 공고", 'jeonnam' : "전남 공고", 'mokpo' : "목포 공고", 'yeosu' : "여수 공고", 'suncheon' : "순천 공고", 'gwangyang' : "광양 공고" }
 
@@ -35,7 +47,6 @@ def main():
 
     for site in sites.values():
         crawler(site)
-
 
 # Data file을 변수에 할당
 class setting:
@@ -74,16 +85,18 @@ def crawler(link):
     while chrome_driver.find_element_by_css_selector(page_info.NEXT):
         for _ in range(page_info.PAGE_CNT - 1):
             for i in range(len(chrome_driver.find_elements_by_css_selector(page_info.NEWS_LIST + page_info.UNRELATED_ANNOUNCEMENT))):
+                print(len(chrome_driver.find_elements_by_css_selector(page_info.NEWS_LIST + page_info.UNRELATED_ANNOUNCEMENT)))
                 crawling_info = get_values_to_page(page_info, i)
-                crawling_info['agency'] = agency
+                if crawling_info:
+                    crawling_info['agency'] = agency
+
+                    current_date = checking_current_date(crawling_info['writed_date'])
+                    if current_date:
+                        crawling_info['writed_date'] = current_date
+                    else:
+                        return
                 
-                current_date = checking_current_date(crawling_info['writed_date'])
-                if current_date:
-                    crawling_info['writed_date'] = current_date
-                else:
-                    return
-                
-                insert_sql(crawling_info)
+                    insert_sql(crawling_info)
                 
             cnt += 1
             chrome_driver.implicitly_wait(5)
@@ -108,13 +121,18 @@ def switch(link):
 
 # 페이지에서 필요한 정보 크롤링
 def get_values_to_page(page_info, i):
-    if str(type(page_info)) != "<class '__main__.setting'>" or str(type(i)) != "<class 'int'>": 
+    if str(type(page_info)) != "<class '__main__.setting'>" or str(type(i)) != "<class 'int'>":
         raise TypeError('parameter type is different origin type')
 
+    if i == 0:
+        logging.info("There is no item for iteration.")
+        return False
+
+    chrome_driver.implicitly_wait(5)
     news_list = chrome_driver.find_elements_by_css_selector(page_info.NEWS_LIST + page_info.UNRELATED_ANNOUNCEMENT)
     num = int(re.sub("\,|\"", "", news_list[i].find_element_by_css_selector(page_info.NUM).text))
     writed_date = news_list[i].find_element_by_css_selector(page_info.WRITED_DATE).text
-    collected_date = datetime.date.today()
+    collected_date = datetime.today().date()
 
     chrome_driver.implicitly_wait(5)
     news_list[i].find_element_by_css_selector(page_info.GO_TO_MAIN_TEXT).click()
@@ -136,23 +154,30 @@ def get_values_to_page(page_info, i):
 # 데이터를 SQL DB에 insert
 def insert_sql(crawling_info):
     try:
-        logging.info("Executing SQL Query....")
+        # logging.info("Executing SQL Query....")
+        print(crawling_info['title'])
         cursor.execute(sql, (crawling_info['title'], crawling_info['num'], crawling_info['agency'], crawling_info['writed_date'], crawling_info['collected_date'], crawling_info['hyperlink']))
     except pymysql.err.IntegrityError:
         logging.debug("Already duplicate title is exist!")
         pass
     except:
         logging.warning("Cannot execute SQL Query! Check about data or SQL Connection.")
-        
-    conn.commit()
+    finally:
+        conn.commit()
 
 # 현재 날짜로부터 특정 기간까지의 정보만을 수집
 def checking_current_date(date):
-    current_date = datetime.strptime(date, "%Y-%m-%d")
-    if current_date.year != 2021 and current_date.month != 9:
-        if ':' in date:
-            return datetime.date.today()
+    # 오늘 중에 등록된 글을 파싱하여 오늘의 날짜 값을 부여
+    if ':' not in date:
+        current_date = datetime.strptime(date, "%Y-%m-%d")
+    else:
+        current_date = datetime.today().date()
+
+    # 특정 날짜 이전의 소식들은 받지 않음.
+    if current_date.year == 2021 and current_date.month < 9:
         return False
+    return current_date
+
 
 if __name__ == '__main__':
     main()
