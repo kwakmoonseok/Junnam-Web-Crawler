@@ -1,10 +1,9 @@
-from datetime import datetime
 import json
+import logging
 import re
-import logging
-import pymysql
-import logging
+from datetime import datetime
 
+import pymysql
 import selenium
 from selenium import webdriver
 
@@ -48,6 +47,9 @@ def main():
     for site in sites.values():
         crawler(site)
 
+    f.close()
+    chrome_driver.quit()
+
 # Data file을 변수에 할당
 class setting:
     NEXT = ''
@@ -85,7 +87,6 @@ def crawler(link):
     while chrome_driver.find_element_by_css_selector(page_info.NEXT):
         for _ in range(page_info.PAGE_CNT - 1):
             for i in range(len(chrome_driver.find_elements_by_css_selector(page_info.NEWS_LIST + page_info.UNRELATED_ANNOUNCEMENT))):
-                print(len(chrome_driver.find_elements_by_css_selector(page_info.NEWS_LIST + page_info.UNRELATED_ANNOUNCEMENT)))
                 crawling_info = get_values_to_page(page_info, i)
                 if crawling_info:
                     crawling_info['agency'] = agency
@@ -101,7 +102,7 @@ def crawler(link):
             cnt += 1
             chrome_driver.implicitly_wait(5)
             try:
-                logging.info("Go to {0} page...".format(cnt))
+                logging.info("Go to {0} page at {1} site...".format(cnt, agency))
                 chrome_driver.find_element_by_css_selector(page_info.PAGE_TEXT.format(cnt)).click()
             except selenium.common.exceptions.NoSuchElementException:
                 logging.debug("There is no page to click.")
