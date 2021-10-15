@@ -1,4 +1,22 @@
 {
+    "site_category" : {
+        "jcia" : "JCIA",
+        "naju" : "나주",
+        "jeonnam" : "전남",
+        "mokpo" : "목포",
+        "yeosu" : "여수",
+        "suncheon" : "순천",
+        "gwangyang" : "광양"
+    },
+    "site_name" : {
+        "광양" : "https://www.gwangyang.go.kr/board/list.gwangyang?boardId=BBS_0000004&menuCd=DOM_000000103001000000&contentsSid=227&cpath=",
+        "순천" : "https://www.suncheon.go.kr/kr/news/0001/0004/",
+        "여수" : "https://www.yeosu.go.kr/www/govt/news/notice",
+        "목포" : "https://www.mokpo.go.kr/www/open_administration/city_news/notice",
+        "JUIA" : "http://jcia.or.kr/cf/information/news.do",
+        "나주" : "https://www.naju.go.kr/www/administration/notice/financial",
+        "전남" : "https://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000"
+    },
     "JCIA 공고" : {
         "NEXT" : "a[title='다음']",
         "NEWS_LIST" : "#Form > div > div > table > tbody > tr",
