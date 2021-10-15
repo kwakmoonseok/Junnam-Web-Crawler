@@ -28,7 +28,11 @@ logger.addHandler(file_handler)
 with open('data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-chrome_driver = webdriver.Chrome(executable_path='./chromedriver')
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument("--incognito")
+
+chrome_driver = webdriver.Chrome(executable_path='./chromedriver', chrome_options=chrome_options)
+
 
 # SQL Connection
 try:
@@ -155,7 +159,7 @@ def get_values_to_page(page_info, i):
     except IndexError:
         logging.warning("Cannot access homepage now")
         f.close()
-        chrome_driver.quit()
+        # chrome_driver.quit()
         sys.exit()
 
     return {
@@ -169,7 +173,6 @@ def get_values_to_page(page_info, i):
 # 데이터를 SQL DB에 insert
 def insert_sql(crawling_info):
     try:
-        # logging.info("Executing SQL Query....")
         print(crawling_info['title'])
         cursor.execute(sql, (crawling_info['unique_num'], crawling_info['title'], crawling_info['agency'], crawling_info['writed_date'], crawling_info['collected_date'], crawling_info['hyperlink']))
     except pymysql.err.IntegrityError:
@@ -184,7 +187,7 @@ def insert_sql(crawling_info):
 def checking_current_date(date):
     # 오늘 중에 등록된 글을 파싱하여 오늘의 날짜 값을 부여
     if ':' not in date:
-        current_date = datetime.strptime(date, "%Y-%m-%d")
+        current_date = datetime.strptime(date, "%Y-%m-%d").date()
     else:
         current_date = datetime.today().date()
 
