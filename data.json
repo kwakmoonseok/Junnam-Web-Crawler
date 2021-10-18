@@ -9,11 +9,11 @@
         "gwangyang" : "광양"
     },
     "site_name" : {
+        "JUIA" : "http://jcia.or.kr/cf/information/news.do",
         "광양" : "https://www.gwangyang.go.kr/board/list.gwangyang?boardId=BBS_0000004&menuCd=DOM_000000103001000000&contentsSid=227&cpath=",
         "순천" : "https://www.suncheon.go.kr/kr/news/0001/0004/",
         "여수" : "https://www.yeosu.go.kr/www/govt/news/notice",
         "목포" : "https://www.mokpo.go.kr/www/open_administration/city_news/notice",
-        "JUIA" : "http://jcia.or.kr/cf/information/news.do",
         "나주" : "https://www.naju.go.kr/www/administration/notice/financial",
         "전남" : "https://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000"
     },
@@ -23,14 +23,14 @@
         "NUM" : "td.number",
         "WRITED_DATE" : "td.date",
         "GO_TO_MAIN_TEXT" : "td:nth-child(3) > a",
-        "TITLE" : "#container > div > div > div > div.boardDetailViewBox > div > div > div.detail_titleBox > h2",
+        "TITLE" : ".boardDetailViewBox > div > div > div.detail_titleBox > h2",
         "PAGE_CNT" : 5,
         "PAGE_TEXT" : "a[title='{0}페이지']",
         "UNRELATED_ANNOUNCEMENT" : ""
     },
     "나주 공고" : {
-        "NEXT" : "#content > div > div > div.board_list_box > div.board_list > div.board_pager_box > div.pagenum_box > a",
-        "NEWS_LIST" : "#content > div > div > div.board_list_box > div.board_list > table > tbody > tr",
+        "NEXT" : ".board_list_box > div.board_list > div.board_pager_box > div.pagenum_box > a",
+        "NEWS_LIST" : ".board_list_box > div.board_list > table > tbody > tr",
         "NUM" : "td:nth-child(1)",
         "WRITED_DATE" : "td:nth-child(4)",
         "GO_TO_MAIN_TEXT" : "td.align_left > a",
@@ -40,14 +40,14 @@
         "UNRELATED_ANNOUNCEMENT" : ""
     },
     "전남 공고" : {
-        "NEXT" : "#frm > div.bbs_page.mt30 > span:nth-child(3) > a",
-        "NEWS_LIST" : "#frm > div.bbs_basic > table > tbody > tr",
+        "NEXT" : ".bbs_page.mt30 > span:nth-child(3) > a",
+        "NEWS_LIST" : ".bbs_basic > table > tbody > tr",
         "NUM" : "td.number",
         "WRITED_DATE" : "td.date",
         "GO_TO_MAIN_TEXT" : "td.title.left.petition > a",
-        "TITLE" : "#container > article > section > div.contents > section > div.bbs_view > h3",
+        "TITLE" : ".contents > section > div.bbs_view > h3",
         "PAGE_CNT" : 5,
-        "PAGE_TEXT" : "#frm > div.bbs_page.mt30 > span.page > a:nth-child({0})",
+        "PAGE_TEXT" : ".bbs_page.mt30 > span.page > a:nth-child({0})",
         "UNRELATED_ANNOUNCEMENT" : ""
     },
     "목포 공고" : {
@@ -62,14 +62,14 @@
         "UNRELATED_ANNOUNCEMENT" : ":not(.tr_notice)"
     },
     "여수 공고" : {
-        "NEXT" : "#content > div > div > div > div.board_list > div.board_pager_box > div.pagenum_box > a",
-        "NEWS_LIST" : "#content > div > div > div > div.board_list > table > tbody > tr",
+        "NEXT" : ".board_list > div.board_pager_box > div.pagenum_box > a",
+        "NEWS_LIST" : ".board_list > table > tbody > tr",
         "NUM" : "td:nth-child(1)",
         "WRITED_DATE" : "td:nth-child(4)",
         "GO_TO_MAIN_TEXT" : "td.align_left > a",
         "TITLE" : "#content > div > div > div.view_titlebox > h3",
         "PAGE_CNT" : 10,
-        "PAGE_TEXT" : "#content > div > div > div > div.board_list > div.board_pager_box > div.pagenum_box > ul > li:nth-child({0})",
+        "PAGE_TEXT" : ".board_list > div.board_pager_box > div.pagenum_box > ul > li:nth-child({0})",
         "UNRELATED_ANNOUNCEMENT" : ":not(.notice)"
     },
     "순천 공고" : {

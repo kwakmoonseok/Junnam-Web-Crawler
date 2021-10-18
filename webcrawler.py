@@ -1,4 +1,5 @@
 # Writed by Munseok, since 2021-09-27
+
 import json
 import logging
 import re
@@ -7,9 +8,8 @@ from datetime import datetime
 
 import pymysql
 import selenium
+import urllib3
 from selenium import webdriver
-
-import err
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -40,6 +40,8 @@ try:
     cursor = conn.cursor()
 except pymysql.err.OperationalError:
     logging.warning("Cannot connect to SQL Server!")
+except RuntimeError:
+    logging.warning("MySQL Session is not started yet!")
 
     f.close()
     chrome_driver.quit()
@@ -122,9 +124,7 @@ def crawler(link):
 
     except selenium.common.exceptions.WebDriverException:
         logging.warning("Cannot read Chrome Page")
-        f.close()
-        chrome_driver.quit()
-        sys.exit()
+
 
     f.close()
     chrome_driver.quit()
@@ -156,19 +156,25 @@ def get_values_to_page(page_info, i):
         chrome_driver.back()
 
         chrome_driver.implicitly_wait(5)
+
+        return {
+            'unique_num' : unique_num,
+            'title': title,
+            'writed_date' : writed_date,
+            'collected_date' : collected_date,
+            'hyperlink' : hyperlink
+        }
     except IndexError:
-        logging.warning("Cannot access homepage now")
+        logging.warning("Cannot access homepage now!")
+        chrome_driver.refresh()
+
+    except urllib3.exceptions:
+        logging.warning("Failed to redirect homepage!")
         f.close()
-        # chrome_driver.quit()
+        chrome_driver.quit()
         sys.exit()
 
-    return {
-        'unique_num' : unique_num,
-        'title': title,
-        'writed_date' : writed_date,
-        'collected_date' : collected_date,
-        'hyperlink' : hyperlink
-    }
+
 
 # 데이터를 SQL DB에 insert
 def insert_sql(crawling_info):
