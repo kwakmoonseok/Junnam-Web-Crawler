@@ -47,7 +47,8 @@ except RuntimeError:
     chrome_driver.quit()
     sys.exit()
 
-sql = "INSERT INTO junnam_news (unique_num, title, agency, writed_date, collected_date, hyperlink) VALUES (%s, %s, %s, %s, %s, %s)"
+insert_sql_query = "INSERT INTO junnam_news (unique_num, title, agency, writed_date, collected_date, hyperlink) VALUES (%s, %s, %s, %s, %s, %s)"
+update_sql_query = "UPDATE junnam_news SET title = %s, agency = %s, writed_date = %s, collected_date = %s, hyperlink = %s WHERE unique_num = %s"
 
 site_category = data["site_category"]
 
@@ -180,14 +181,23 @@ def get_values_to_page(page_info, i):
 def insert_sql(crawling_info):
     try:
         print(crawling_info['title'])
-        cursor.execute(sql, (crawling_info['unique_num'], crawling_info['title'], crawling_info['agency'], crawling_info['writed_date'], crawling_info['collected_date'], crawling_info['hyperlink']))
+        cursor.execute(insert_sql_query, (crawling_info['unique_num'], crawling_info['title'], crawling_info['agency'], crawling_info['writed_date'], crawling_info['collected_date'], crawling_info['hyperlink']))
     except pymysql.err.IntegrityError:
         logging.debug("Already same primary key is exist!")
-        pass
+        update_sql(crawling_info)
+        return
     except Exception:
         logging.warning("Cannot execute SQL Query!")
     finally:
         conn.commit()
+
+# 중복 Primary Key가 들어왔을 때 새로운 데이터에 맞게 Column을 갱신
+def update_sql(crawling_info):
+    try:
+        cursor.execute(update_sql_query, (crawling_info['title'], crawling_info['agency'], crawling_info['writed_date'], crawling_info['collected_date'], crawling_info['hyperlink'], crawling_info['unique_num']))
+    except Exception:
+        logging.warning("Cannot execute SQL Query!")
+    conn.commit()
 
 # 현재 날짜로부터 특정 기간까지의 정보만을 수집
 def checking_current_date(date):
